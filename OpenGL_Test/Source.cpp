@@ -96,7 +96,7 @@ int main() {
     glDeleteShader( fragmentShader );
 
     // Vertex array
-    float vertices[] = {
+    /*float vertices[] = { // ORIGINAL
         -0.5f, -0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
         -0.5f, 0.5f, 0.0f,
@@ -106,7 +106,35 @@ int main() {
     unsigned int indices[] = {
         0, 1, 2,
         3, 2, 1
+    };*/
+
+    float vertices[] = { // EXERCISE 1
+        -0.6f, -0.2f, 0.0f,
+        -0.4f, 0.2f, 0.0f,
+        -0.2f, -0.2f, 0.0f,
+        0.2f, -0.2f, 0.0f,
+        0.4f, 0.2f, 0.0f,
+        0.6f, -0.2f, 0.0f
     };
+
+    unsigned int indices[] = {
+        0, 1, 2,
+        3, 4, 5
+    };
+
+    /*float vertices[] = { // EXERCISE 2
+        -0.6f, -0.2f, 0.0f,
+        -0.4f, 0.2f, 0.0f,
+        -0.2f, -0.2f, 0.0f,
+        0.2f, -0.2f, 0.0f,
+        0.4f, 0.2f, 0.0f,
+        0.6f, -0.2f, 0.0f
+    };
+
+    unsigned int indices[] = {
+        0, 1, 2,
+        3, 4, 5
+    };*/
 
     // Create VAO, VBO, and EBO
     unsigned int vao, vbo, ebo;
@@ -141,7 +169,7 @@ int main() {
 
         glUseProgram( shaderProgram );
         glBindVertexArray( vao );
-        glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
+        glDrawElements( GL_TRIANGLES, std::size(indices), GL_UNSIGNED_INT, 0 );
         glBindVertexArray( 0 );
 
         glfwSwapBuffers( window );
