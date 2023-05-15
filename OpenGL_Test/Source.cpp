@@ -103,12 +103,7 @@ int main() {
         glClear( GL_COLOR_BUFFER_BIT );
 
         shader.Use();
-        shader.SetFloat( "horizontalOffset", 0.3f );
-
-        //GLfloat timeValue = glfwGetTime();
-        //GLfloat greenValue = ( sin( timeValue ) / 2.0f ) + 0.5f;
-        //GLint vertexColourLocation = glGetUniformLocation( shader.GetProgramID(), "vertexColour" );
-        //glUniform4f( vertexColourLocation, 0.0f, greenValue, 0.0f, 1.0f );
+        //shader.SetFloat( "horizontalOffset", 0.3f );
 
         glBindVertexArray( vao[ 0 ] );
         glDrawElements( GL_TRIANGLES, std::size( indices ), GL_UNSIGNED_INT, 0 );
