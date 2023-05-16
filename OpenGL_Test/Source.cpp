@@ -57,6 +57,12 @@ int main() {
         0, 1, 2
     };
 
+    GLfloat texCoords[] = {
+        0.0f, 0.0f,
+        0.5f, 1.0f,
+        1.0f, 0.0f
+    };
+
     // Create VAO, VBO, and EBO
     GLuint vao[ 2 ], vbo[ 2 ], ebo;
     glGenVertexArrays( 2, vao );
@@ -79,6 +85,12 @@ int main() {
     glEnableVertexAttribArray( 0 );
     glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof( GLfloat ), ( void* )( 3 * sizeof( GLfloat ) ) );
     glEnableVertexAttribArray( 1 );
+
+    // Configure texture stuff
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
     // Do it all again for the second triangle
     // TODO: This looks fucking ugly. Move it somewhere else.
