@@ -4,9 +4,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <filesystem> // std::filesystem
+//#include <filesystem> // std::filesystem
 #include <iterator> // std::size
-#include <string>
 
 #include "Shader.h"
 
@@ -87,7 +86,7 @@ int main() {
     glEnableVertexAttribArray( 2 );
 
     // Texture stuff
-    GLuint texture1;
+    GLuint texture1, texture2;
     glGenTextures( 1, &texture1 );
     glBindTexture( GL_TEXTURE_2D, texture1 );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
@@ -95,8 +94,8 @@ int main() {
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
     int width, height, numberOfChannels;
-    //std::filesystem::path texPath1( "container.jpg" );
-    unsigned char* data = stbi_load( "container.jpg", &width, &height, &numberOfChannels, 0 );
+    //std::filesystem::path texPath1( "images/container.jpg" );
+    unsigned char* data = stbi_load( "images/container.jpg", &width, &height, &numberOfChannels, 0 );
     if( data ) {
         glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data );
         glGenerateMipmap( GL_TEXTURE_2D );
@@ -105,15 +104,14 @@ int main() {
     }
     stbi_image_free( data );
 
-    //GLuint texture2;
     //glGenTextures( 1, &texture2 );
     //glBindTexture( GL_TEXTURE_2D, texture2 );
     //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
     //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
     //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    ////std::filesystem::path texPath2( "awesomeface.jpg" );
-    //data = stbi_load( "awesomeface.jpg", &width, &height, &numberOfChannels, 0 );
+    ////std::filesystem::path texPath2( "images/awesomeface.jpg" );
+    //data = stbi_load( "images/awesomeface.jpg", &width, &height, &numberOfChannels, 0 );
     //if( data ) {
     //    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data );
     //    glGenerateMipmap( GL_TEXTURE_2D );
@@ -142,6 +140,7 @@ int main() {
         //glBindTexture( GL_TEXTURE_2D, texture2 );
 
         shader.Use();
+
         glBindVertexArray( vao );
         glDrawElements( GL_TRIANGLES, std::size( indices ), GL_UNSIGNED_INT, 0 );
 
