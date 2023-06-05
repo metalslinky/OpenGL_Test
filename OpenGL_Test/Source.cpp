@@ -1,8 +1,16 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+// GLAD
 #include <glad/glad.h>
+
+// GLFW
 #include <GLFW/glfw3.h>
+
+// GLM
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <iterator> // std::size
 
@@ -17,6 +25,26 @@ void processInput( GLFWwindow* window ) {
         glfwSetWindowShouldClose( window, true );
     }
 }
+
+//GLuint Load2DTexture( int texturePos, const char* pFileName, int colourFormat ) {
+//    GLuint texture;
+//    glGenTextures( texturePos, &texture );
+//    glBindTexture( GL_TEXTURE_2D, texture );
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+//    int width, height, numberOfChannels;
+//    unsigned char* data = stbi_load( pFileName, &width, &height, &numberOfChannels, 0 );
+//    if( data ) {
+//        glTexImage2D( GL_TEXTURE_2D, 0, colourFormat, width, height, 0, colourFormat, GL_UNSIGNED_BYTE, data );
+//        glGenerateMipmap( GL_TEXTURE_2D );
+//    } else {
+//        std::cout << "Failed to load texture" << std::to_string( texturePos ) << "\n";
+//    }
+//    stbi_image_free( data );
+//    return texture;
+//}
 
 int main() {
     glfwInit();
@@ -45,7 +73,7 @@ int main() {
     Shader shader( "triangle.vert", "triangle.frag" );
 
     GLfloat vertices[] = {
-        // positions          // colors           // texture coords
+        // positions          // colours          // texture coords
          0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
          0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
         -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
@@ -86,6 +114,9 @@ int main() {
 
     // Texture stuff
     GLuint texture1, texture2;
+    stbi_set_flip_vertically_on_load( true );
+    //texture1 = Load2DTexture( 0, "images/container.jpg", GL_RGB );
+    //texture2 = Load2DTexture( 1, "images/awesomeface.png", GL_RGBA );
     glGenTextures( 1, &texture1 );
     glBindTexture( GL_TEXTURE_2D, texture1 );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
@@ -98,7 +129,7 @@ int main() {
         glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data );
         glGenerateMipmap( GL_TEXTURE_2D );
     } else {
-        std::cout << "Failed to load texture1" << std::endl;
+        std::cout << "Failed to load texture1\n";
     }
     stbi_image_free( data );
 
@@ -113,13 +144,18 @@ int main() {
         glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data );
         glGenerateMipmap( GL_TEXTURE_2D );
     } else {
-        std::cout << "Failed to load texture2" << std::endl;
+        std::cout << "Failed to load texture2\n";
     }
     stbi_image_free( data );
 
     shader.Use();
     shader.SetInt( "texture1", 0 );
     shader.SetInt( "texture2", 1 );
+
+    glActiveTexture( GL_TEXTURE0 );
+    glBindTexture( GL_TEXTURE_2D, texture1 );
+    glActiveTexture( GL_TEXTURE1 );
+    glBindTexture( GL_TEXTURE_2D, texture2 );
 
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
@@ -130,11 +166,6 @@ int main() {
         // Render
         glClearColor( 0.1f, 0.3f, 0.2f, 1.0f );
         glClear( GL_COLOR_BUFFER_BIT );
-
-        glActiveTexture( GL_TEXTURE0 );
-        glBindTexture( GL_TEXTURE_2D, texture1 );
-        glActiveTexture( GL_TEXTURE1 );
-        glBindTexture( GL_TEXTURE_2D, texture2 );
 
         shader.Use();
 
