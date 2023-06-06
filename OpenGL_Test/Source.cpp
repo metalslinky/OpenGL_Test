@@ -167,9 +167,24 @@ int main() {
         glClearColor( 0.1f, 0.3f, 0.2f, 1.0f );
         glClear( GL_COLOR_BUFFER_BIT );
 
+        glm::mat4 trans = glm::mat4( 1.0f );
+        float time = glfwGetTime();
+        trans = glm::rotate( trans, time, glm::vec3( 0.0f, 0.0f, 1.0f ) );
+        trans = glm::translate( trans, glm::vec3( 0.7f, 0.0f, 0.0f ) );
+        trans = glm::rotate( trans, time, glm::vec3( 0.0f, 0.0f, -1.0f ) );
+        trans = glm::scale( trans, glm::vec3( 0.5f, 0.5f, 0.5f ) );
+
         shader.Use();
 
+        GLuint transformLoc = glGetUniformLocation( shader.GetProgramID(), "transform" );
+        glUniformMatrix4fv( transformLoc, 1, GL_FALSE, glm::value_ptr( trans ) );
+
         glBindVertexArray( vao );
+        glDrawElements( GL_TRIANGLES, std::size( indices ), GL_UNSIGNED_INT, 0 );
+
+        trans = glm::translate( glm::mat4( 1.0f ), glm::vec3( -0.5f, 0.5f, 0.0f ) );
+        transformLoc = glGetUniformLocation( shader.GetProgramID(), "transform" );
+        glUniformMatrix4fv( transformLoc, 1, GL_FALSE, glm::value_ptr( trans ) );
         glDrawElements( GL_TRIANGLES, std::size( indices ), GL_UNSIGNED_INT, 0 );
 
         glfwSwapBuffers( window );
