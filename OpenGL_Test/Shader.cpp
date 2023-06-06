@@ -5,6 +5,7 @@ Shader::Shader( const char* pVertexPath, const char* pFragmentPath ) {
     std::string vertexCode, fragmentCode;
     std::ifstream vertexShaderFile, fragmentShaderFile;
     vertexShaderFile.exceptions( std::ifstream::failbit | std::ifstream::badbit );
+    fragmentShaderFile.exceptions( std::ifstream::failbit | std::ifstream::badbit );
     try {
         vertexShaderFile.open( pVertexPath );
         fragmentShaderFile.open( pFragmentPath );
