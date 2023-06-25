@@ -1,7 +1,6 @@
 #include "Shader.h"
 
 #include <fstream> // std::ifstream
-#include <iostream> // std::cout
 #include <sstream> // std::stringstream
 
 Shader::Shader( const char* pVertexPath, const char* pFragmentPath ) {
@@ -84,6 +83,10 @@ void Shader::SetMat3( const std::string& name, const glm::mat3& mat ) const {
 }
 void Shader::SetMat4( const std::string& name, const glm::mat4& mat ) const {
     glUniformMatrix4fv( glGetUniformLocation( mProgramID, name.c_str() ), 1, GL_FALSE, &mat[ 0 ][ 0 ] );
+}
+
+std::ostream& operator<<( std::ostream& os, const Shader& shader ) {
+    return os << "Shader ID: " << shader.mProgramID << "\n";
 }
 
 GLuint Shader::CompileVertexShader( const char* pVertexShaderCode ) {

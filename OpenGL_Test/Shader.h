@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 
 #include <string> // std::string
+#include <iostream> // std::cout, std::ostream
 
 class Shader {
 public:
@@ -29,6 +30,8 @@ public:
     void SetMat2( const std::string& name, const glm::mat2& mat ) const;
     void SetMat3( const std::string& name, const glm::mat3& mat ) const;
     void SetMat4( const std::string& name, const glm::mat4& mat ) const;
+
+    friend std::ostream& operator<<( std::ostream& os, const Shader& shader );
 
 private:
     GLuint CompileVertexShader( const char* pVertexShaderCode );
