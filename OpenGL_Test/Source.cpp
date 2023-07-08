@@ -221,31 +221,31 @@ int main() {
         shader.Use();
 
         // Model matrix
-        //glm::mat4 model = glm::mat4( 1.0f );
-        //constexpr GLfloat ROTATION_ANGLE = glm::radians( 50.0f );
-        //model = glm::rotate( model, static_cast< float > ( glfwGetTime() ) * ROTATION_ANGLE, glm::vec3( 0.5f, 1.0f, 0.0f ) );
+        glm::mat4 model = glm::mat4( 1.0f );
+        constexpr GLfloat ROTATION_ANGLE = glm::radians( 50.0f );
+        model = glm::rotate( model, static_cast< float > ( glfwGetTime() ) * ROTATION_ANGLE, glm::vec3( 0.5f, 1.0f, 0.0f ) );
 
         // View matrix
         glm::mat4 view = glm::mat4( 1.0f );
         view = glm::translate( view, glm::vec3( 0.0f, 0.0f, -3.0f ) );
 
-        //shader.SetMat4( "model", model );
+        shader.SetMat4( "model", model );
         shader.SetMat4( "view", view );
 
         glBindVertexArray( vao );
-        for( GLuint i = 0u; i < 10u; ++i ) {
-            glm::mat4 model = glm::mat4( 1.0f );
-            model = glm::translate( model, cubePositions[ i ] );
-            GLfloat angle = 20.0f * i;
-            if( i % 3 == 0 ) {
-                angle *= static_cast< float >( glfwGetTime() );
-            }
-            model = glm::rotate( model, glm::radians( angle ), glm::vec3( 1.0f, 0.3f, 0.5f ) );
-            shader.SetMat4( "model", model );
+        //for( GLuint i = 0u; i < 10u; ++i ) {
+        //    glm::mat4 model = glm::mat4( 1.0f );
+        //    model = glm::translate( model, cubePositions[ i ] );
+        //    GLfloat angle = 20.0f * i;
+        //    if( i % 3 == 0 ) {
+        //        angle *= static_cast< float >( glfwGetTime() );
+        //    }
+        //    model = glm::rotate( model, glm::radians( angle ), glm::vec3( 1.0f, 0.3f, 0.5f ) );
+        //    shader.SetMat4( "model", model );
 
-            glDrawElements( GL_TRIANGLE_STRIP, std::size( indices ), GL_UNSIGNED_INT, 0 );
-        }
-        //glDrawElements( GL_TRIANGLE_STRIP, std::size( indices ), GL_UNSIGNED_INT, 0 );
+        //    glDrawElements( GL_TRIANGLE_STRIP, std::size( indices ), GL_UNSIGNED_INT, 0 );
+        //}
+        glDrawElements( GL_TRIANGLE_STRIP, std::size( indices ), GL_UNSIGNED_INT, 0 );
 
         glfwSwapBuffers( window );
         glfwPollEvents();
